@@ -22,6 +22,7 @@
         var super_y = 250;
         var direction = 'rigth';
         var score = 0;
+        var pause = false;
         
 
 
@@ -57,7 +58,17 @@
             
             player2.dibujar(ctx);
 
-            update(); // Se va a ejecutar cada que se actualiza el frame
+            if (pause){
+                ctx.fillStyle = "rgba(0,0,0,0.5)";
+                ctx.fillRect(0,0,500,500);
+
+                ctx.fillStyle = "white";
+                ctx.fillText('PAUSE',230,230);
+            } else{
+                update();
+            }
+
+            
         }
 
 
@@ -134,7 +145,13 @@
                 direction = 'rigth';
             }
 
+            // Pausa
+            if(e.keyCode == 32){
+                pause = (pause)?false:true;
+            }
+
         });
+
 
 
 
