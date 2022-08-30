@@ -7,7 +7,7 @@
     <title>Canvas</title>
 </head>
 <body>
-    <canvas id="mycanvas" width=960 height=1160>
+    <canvas id="mycanvas" width=1160 height=1160>
         <!-- Si el texto aparece es porque tu navegador no soporta canvas -->
         Tu navegador no soporta canvas
     </canvas>
@@ -37,11 +37,13 @@
         var speed = 1;
         var pause = false;
 
-        var pause = false;
-
         var mario = new Image();
-        var moneda = new Image();
-        var bloque = new Image();
+        var coin = new Image();
+        var block = new Image();
+        var side = new Image();
+
+        var coinSound = new Audio();
+        var themeSong = new Audio();
 
 
         function createMaze()
@@ -115,11 +117,6 @@
 
         }
         
-  
-
-
-        
-
 
         
 
@@ -137,8 +134,14 @@
 
 
             mario.src = 'img/mario.png';
-            bloque.src = 'img/bloque.png';
-            moneda.src = 'img/moneda.png';
+            block.src = 'img/block.png';
+            coin.src = 'img/coin.png';
+            side.src = 'img/side.png';
+
+            coinSound.src = 'sound/coinSound.mp3';
+            themeSong.src = 'sound/themeSong.mp3';
+
+
 
             paint();
         }
@@ -154,7 +157,7 @@
             // Mostrar laberinto
             for(i in arrayWall){
                 //arrayWall[i].draw(ctx);
-                ctx.drawImage(bloque, arrayWall[i].x, arrayWall[i].y);
+                ctx.drawImage(block, arrayWall[i].x, arrayWall[i].y);
             }
 
             for(i in arrayFloor){
@@ -164,6 +167,10 @@
             for(i in arrayRoute){
                 arrayRoute[i].draw(ctx);
             }
+
+            // Mostrar lateral
+            //player.draw(ctx);
+            ctx.drawImage(side, 960, 0, 200, 1160);
             
 
             // Mostrar jugador
@@ -172,7 +179,7 @@
 
             // Mostrar final
             //finish.draw(ctx);
-            ctx.drawImage(moneda, finish.x, finish.y);
+            ctx.drawImage(coin, finish.x, finish.y);
             
             
             // Realizar pausa
@@ -237,8 +244,9 @@
 
             // Validar fin del juego
             if(player.checkCollision(finish)){
-                game = false;
-                //pendiente
+                // game = false;
+                // pendiente
+                coinSound.play();
             }
             
 
