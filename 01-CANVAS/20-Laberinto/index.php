@@ -7,7 +7,7 @@
     <title>Canvas</title>
 </head>
 <body>
-    <canvas id="mycanvas" width=840 height=1015>
+    <canvas id="mycanvas" width=960 height=1160>
         <!-- Si el texto aparece es porque tu navegador no soporta canvas -->
         Tu navegador no soporta canvas
     </canvas>
@@ -24,16 +24,24 @@
         var maze = new Array();
         var arrayWall = new Array();
         var arrayFloor = new Array();
-        var arrayRoad = new Array();
+        var arrayRoute = new Array();
 
         var sq = null;
 
+        var game = true;
         var player = null;
+        var finish = null;
         
         
-        var direction = 'rigth';
+        var direction = '';
         var speed = 1;
         var pause = false;
+
+        var pause = false;
+
+        var mario = new Image();
+        var moneda = new Image();
+        var bloque = new Image();
 
 
         function createMaze()
@@ -78,25 +86,25 @@
                 for(var j = 0; j < 29; j++)
                 {
 
-                    coordinateX = i * 35;
-                    coordinateY = j * 35;
+                    coordinateX = i * 40;
+                    coordinateY = j * 40;
 
 
                     if(maze[i][j] == 1){
 
-                        sq = new Square(coordinateX,coordinateY, 35, 35,'red');
+                        sq = new Square(coordinateX,coordinateY, 40, 40,'red');
                         arrayWall.push(sq);
 
 
                     }else if(maze[i][j] == 2){
 
-                        sq = new Square(coordinateX,coordinateY, 35, 35, 'white');
+                        sq = new Square(coordinateX,coordinateY, 40, 40, 'white');
                         arrayFloor.push(sq);
 
                     }else if(maze[i][j] == 3){
                         
-                        sq = new Square(coordinateX,coordinateY, 35, 35, 'green');
-                        arrayRoad.push(sq);
+                        sq = new Square(coordinateX,coordinateY, 40, 40, 'white');
+                        arrayRoute.push(sq);
                         
                     }
 
@@ -124,7 +132,13 @@
 
             fillArrays();
 
-            player = new Square(200, 200, 15, 15, 'yellow');
+            player = new Square((17.5*40)-(35/2), 0, 35, 35, 'red');
+            finish = new Square((10.5*40)-(30/2), (27.2*40)+(30), 30, 35, 'pink');
+
+
+            mario.src = 'img/mario.png';
+            bloque.src = 'img/bloque.png';
+            moneda.src = 'img/moneda.png';
 
             paint();
         }
@@ -139,20 +153,26 @@
 
             // Mostrar laberinto
             for(i in arrayWall){
-                arrayWall[i].draw(ctx);
+                //arrayWall[i].draw(ctx);
+                ctx.drawImage(bloque, arrayWall[i].x, arrayWall[i].y);
             }
 
             for(i in arrayFloor){
                 arrayFloor[i].draw(ctx);
             }
 
-            for(i in arrayRoad){
-                arrayRoad[i].draw(ctx);
+            for(i in arrayRoute){
+                arrayRoute[i].draw(ctx);
             }
             
 
             // Mostrar jugador
-            // player.draw(ctx);
+            //player.draw(ctx);
+            ctx.drawImage(mario, player.x, player.y);
+
+            // Mostrar final
+            //finish.draw(ctx);
+            ctx.drawImage(moneda, finish.x, finish.y);
             
             
             // Realizar pausa
@@ -163,6 +183,7 @@
             } else{
                 update();
             }
+
 
             
         }
@@ -213,6 +234,12 @@
                     // pendiente
                 }
             }
+
+            // Validar fin del juego
+            if(player.checkCollision(finish)){
+                game = false;
+                //pendiente
+            }
             
 
         }
@@ -247,7 +274,16 @@
                 pause = (pause) ? false : true;
             }
 
+
+            // Ruta
+            if(e.keyCode == 82){
+                for(i in arrayRoute){
+                    arrayRoute[i].c = 'blue';
+                }
+            }
+
         });
+
 
 
 
@@ -264,7 +300,7 @@
             {
                 ctx.fillStyle = this.c;
                 ctx.fillRect(this.x, this.y, this.w, this.h);
-                ctx.strokeRect(this.x, this.y, this.w, this.h);
+                // ctx.strokeRect(this.x, this.y, this.w, this.h);
             }
 
             this.checkCollision = function (target)
