@@ -32,9 +32,8 @@
         var player = null;
         var finish = null;
         
-        
         var direction = '';
-        var speed = 1;
+        var speed = 2;
         var pause = false;
 
         var mario = new Image();
@@ -182,27 +181,37 @@
             ctx.drawImage(coin, finish.x, finish.y);
             
             
-            // Realizar pausa
-            if (pause){
+        
+            if (pause){ // Realizar pausa
                 ctx.fillStyle = "rgba(0,0,0,0.5)";
                 ctx.fillRect(0, 0, cv.width, cv.height);
 
-            } else{
+            } else if(!game){ // Finalizar juego
+                ctx.fillStyle = "rgba(0,0,0,0.5)";
+                ctx.fillRect(0, 0, cv.width, cv.height);
+                
+            }else{
                 update();
             }
-
 
             
         }
 
+        
 
 
 
-        // Mover jugador
+
         function update()
         {
+            // Sonido de fondo
+            //themeSong.play();
+            //themeSong.loop = true;
+
+
+
             if(direction == 'rigth')
-            {
+            {   
                 player.x += speed;
                 if(player.x > cv.width){
                     player.x = 0;
@@ -211,11 +220,14 @@
 
             if(direction == 'left')
             {
+                
                 player.x -= speed;
-                if(player.x > cv.width){
+                if(player.x < 0){
                     player.x = 0;
                 }
+                
             }
+
 
             if(direction == 'down')
             {
@@ -228,7 +240,7 @@
             if(direction == 'up')
             {
                 player.y -= speed;
-                if(player.y > cv.height){
+                if(player.y < 0){
                     player.y = 0;
                 }
             }
@@ -237,16 +249,35 @@
 
             // Validar colisiones
             for(i in arrayWall){
-                if(player.checkCollision(arrayWall[i])){
-                    // pendiente
+                if(player.checkCollision(arrayWall[i]))
+                {
+                    // if (direction == 'right') {
+                    //     player.x -= speed;
+                    // }   
+
+                    // if (direction == 'left') {
+                    //     player.x += speed;
+                    // }
+
+                    // if (direction == 'down') {
+                    //     player.y -= speed;
+                    // }
+
+                    // if (direction == 'up') {
+                    //     player.y += speed;
+                    // }
                 }
             }
 
             // Validar fin del juego
             if(player.checkCollision(finish)){
-                // game = false;
+                game = false;
                 // pendiente
+                
+                // Sonido
                 coinSound.play();
+                themeSong.loop = false;
+
             }
             
 
@@ -255,25 +286,31 @@
 
 
 
+
+
         document.addEventListener('keydown', function(e)
         {
             // Arriba
             if(e.keyCode == 87 || e.keyCode == 38){
+                speed = 2;
                 direction = 'up'; 
             }
 
             // Abajo
             if(e.keyCode == 83 || e.keyCode == 40){
+                speed = 2;
                 direction = 'down';
             }
 
             // Izquierda
             if(e.keyCode == 65 || e.keyCode == 37){
+                speed = 2;
                 direction = 'left';
             }
 
             // Derecha
             if(e.keyCode == 68 || e.keyCode == 39){
+                speed = 2;
                 direction = 'rigth';
             }
 
@@ -286,9 +323,44 @@
             // Ruta
             if(e.keyCode == 82){
                 for(i in arrayRoute){
-                    arrayRoute[i].c = 'blue';
+                    arrayRoute[i].c = 'green';
                 }
             }
+
+        });
+
+
+
+        document.addEventListener('keyup', function(e){
+            console.log(e.keyCode);
+
+            // Arriba
+            if(e.keyCode == 87 || e.keyCode == 38){
+                speed = 0;
+            }
+
+            // Abajo
+            if(e.keyCode == 83 || e.keyCode == 40){
+                speed = 0;
+            }
+
+            // Izquierda
+            if(e.keyCode == 65 || e.keyCode == 37){
+                speed = 0;
+            }
+
+            // Derecha
+            if(e.keyCode == 68 || e.keyCode == 39){
+                speed = 0;
+            }
+
+            if(e.keyCode == 82){
+                for(i in arrayRoute){
+                    arrayRoute[i].c = 'white';
+                }
+            }
+
+            
 
         });
 
