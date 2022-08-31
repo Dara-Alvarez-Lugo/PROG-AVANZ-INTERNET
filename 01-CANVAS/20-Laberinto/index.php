@@ -147,7 +147,6 @@
         
 
 
-
         function paint()
         {
             window.requestAnimationFrame(paint);
@@ -171,6 +170,10 @@
             //player.draw(ctx);
             ctx.drawImage(side, 960, 0, 200, 1160);
             
+            ctx.fillStyle = "white";
+            ctx.font = "30px Helvetica";
+            ctx.fillText('T I M E', 960+50, 100);
+            
 
             // Mostrar jugador
             //player.draw(ctx);
@@ -186,9 +189,17 @@
                 ctx.fillStyle = "rgba(0,0,0,0.5)";
                 ctx.fillRect(0, 0, cv.width, cv.height);
 
+                ctx.fillStyle = "white";
+                ctx.font = "60px Helvetica";
+                ctx.fillText('P A U S E', (cv.width/2)-100, cv.height/2);
+
             } else if(!game){ // Finalizar juego
                 ctx.fillStyle = "rgba(0,0,0,0.5)";
                 ctx.fillRect(0, 0, cv.width, cv.height);
+
+                ctx.fillStyle = "white";
+                ctx.font = "60px Helvetica";
+                ctx.fillText('W I N', (cv.width/2)-100, cv.height/2);
                 
             }else{
                 update();
@@ -204,9 +215,10 @@
 
         function update()
         {
+            
             // Sonido de fondo
-            //themeSong.play();
-            //themeSong.loop = true;
+            themeSong.play();
+            themeSong.loop = true;
 
 
 
@@ -220,12 +232,10 @@
 
             if(direction == 'left')
             {
-                
                 player.x -= speed;
                 if(player.x < 0){
                     player.x = 0;
                 }
-                
             }
 
 
@@ -251,28 +261,27 @@
             for(i in arrayWall){
                 if(player.checkCollision(arrayWall[i]))
                 {
-                    // if (direction == 'right') {
-                    //     player.x -= speed;
-                    // }   
+                    if (direction == 'right') {
+                        player.x -= speed;
+                    }   
 
-                    // if (direction == 'left') {
-                    //     player.x += speed;
-                    // }
+                    if (direction == 'left') {
+                        player.x += speed;
+                    }
 
-                    // if (direction == 'down') {
-                    //     player.y -= speed;
-                    // }
+                    if (direction == 'down') {
+                        player.y -= speed;
+                    }
 
-                    // if (direction == 'up') {
-                    //     player.y += speed;
-                    // }
+                    if (direction == 'up') {
+                        player.y += speed;
+                    }
                 }
             }
 
             // Validar fin del juego
             if(player.checkCollision(finish)){
                 game = false;
-                // pendiente
                 
                 // Sonido
                 coinSound.play();
@@ -314,6 +323,7 @@
                 direction = 'rigth';
             }
 
+            
             // Pausa
             if(e.keyCode == 32){
                 pause = (pause) ? false : true;
@@ -365,6 +375,8 @@
         });
 
 
+        
+
 
 
 
@@ -384,11 +396,11 @@
             }
 
             this.checkCollision = function (target)
-            { 
-                if(this.x < target.x + target.w && 
-                    this.x + this.w > target.x && 
-                    this.y < target.y + target.h && 
-                    this.y + this.h > target.y){
+            {
+                if(this.x < target.x + target.w && //derecha a izquierda
+                    this.x + this.w > target.x && //izquierda a derecha
+                    this.y < target.y + target.h && // abajo a arriba
+                    this.y + this.h > target.y){ //arriba a abajo
                     return true;  
                 }  
             };

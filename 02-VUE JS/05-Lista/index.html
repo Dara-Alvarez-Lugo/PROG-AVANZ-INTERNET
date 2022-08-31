@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VUE JS</title>
+</head>
+<body>
+
+    <div id="contenedor">
+
+        <h2>
+            Salon
+        </h2>
+
+        <ol>
+            <li v-for="alumno in salon">
+                {{alumno.name}}
+                {{alumno.role}}
+
+            </li>
+        </ol>
+
+        <fieldset>
+            <legend>Nuevo alumno</legend>
+
+            <input type="text" v-model="a_name">
+            <input type="text" v-model="role">
+
+            <button @click="addSalon">
+                Guardar
+            </button>
+
+
+        </fieldset>
+
+        
+        
+
+    </div>
+
+    
+    <script src="https://unpkg.com/vue@3"></script>
+
+   <script>
+        const { createApp } = Vue
+
+        const app = createApp({
+            data(){
+                return{
+                    salon:[
+                        {name: 'dara', role:'backend'},
+                        {name: 'Isaac', role:'bda'},
+                        {name: 'Emmanuel', role:'movil'},
+                    ],
+                    a_name:"",
+                    role:""
+
+                }
+            },
+            methods:{
+                addSalon(){
+                    this.salon.push({name:this.a_name, role:this.role})
+                }
+                    
+            }
+        }).mount('#contenedor')
+
+   </script>
+
+    
+
+</body>
+</html>
