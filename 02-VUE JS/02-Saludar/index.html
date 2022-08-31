@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VUE JS</title>
+</head>
+<body>
+
+    <div id="contenedor">
+        
+        <h1>{{name}}</h1>
+        <p>{{lastname}}</p>
+
+        <form action="">
+            <fieldset>
+                <legend>Datos personales</legend>
+                <input type="text" v-model="name">
+                <input type="text" v-model="lastname">
+
+                <button @click="saludar">
+                    saludar
+                </button>
+                
+            </fieldset>
+
+            
+
+        </form>
+        
+        
+
+    </div>
+
+    
+    <script src="https://unpkg.com/vue@3"></script>
+
+   <script>
+        const { createApp } = Vue
+
+        const app = createApp({
+            data(){
+                return{
+                    name: 'Dara',
+                    lastname: 'Alvarez'
+                }
+            },
+            methods:{
+                saludar(){
+                    alert("Hola: "+this.name+" "+this.lastname)
+
+                }
+                    
+            }
+        }).mount('#contenedor')
+
+   </script>
+
+    
+
+</body>
+</html>
