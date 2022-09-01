@@ -234,6 +234,20 @@
             ctx.fillStyle = "white";
             ctx.font = "20px Arial";
             ctx.fillText(time, 960+60, 150);
+            
+            // Mostrar controles
+            ctx.fillStyle = "white";
+            ctx.font = "20px Arial";
+            ctx.fillText('CONTROLS', 960+40, 290);
+            ctx.fillStyle = "white";
+            
+            ctx.font = "15px Arial";
+            ctx.fillText('W = UP', 960+40, 330);
+            ctx.fillText('A = LEFT', 960+40, 360);
+            ctx.fillText('S = DOWN', 960+40, 390);
+            ctx.fillText('D = RIGHT', 960+40, 420);
+            ctx.fillText('R = HELP', 960+40, 450);
+            ctx.fillText('SPACE = PAUSE', 960+40, 480);
 
             
             // Mostrar jugador
@@ -249,8 +263,8 @@
                 ctx.fillRect(0, 0, cv.width, cv.height);
 
                 ctx.fillStyle = "white";
-                ctx.font = "60px Arial";
-                ctx.fillText('P A U S E', (cv.width/2)-100, cv.height/2);
+                ctx.font = "bold 60px Arial";
+                ctx.fillText('P A U S E', (cv.width/2)-140, cv.height/2);
 
                 pauseTime = true;
 
@@ -263,8 +277,8 @@
                 ctx.fillRect(0, 0, cv.width, cv.height);
 
                 ctx.fillStyle = "white";
-                ctx.font = "60px Arial";
-                ctx.fillText('W I N', (cv.width/2)-100, cv.height/2);
+                ctx.font = "bold 60px Arial";
+                ctx.fillText('W I N', (cv.width/2)-80, cv.height/2);
 
                 pauseTime = true;
 
