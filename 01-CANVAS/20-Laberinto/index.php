@@ -26,16 +26,17 @@
         var arrayFloor = new Array();
         var arrayRoute = new Array();
 
+        var game = true;
+        var pause = false;
+
         var sq = null;
 
-        var game = true;
         var player = null;
         var finish = null;
         
         var direction = '';
         var speed = 2;
-        var pause = false;
-
+        
         var mario = new Image();
         var coin = new Image();
         var block = new Image();
@@ -200,6 +201,8 @@
                 ctx.fillStyle = "white";
                 ctx.font = "60px Helvetica";
                 ctx.fillText('W I N', (cv.width/2)-100, cv.height/2);
+
+                player.draw = false;
                 
             }else{
                 update();
@@ -219,7 +222,6 @@
             // Sonido de fondo
             themeSong.play();
             themeSong.loop = true;
-
 
 
             if(direction == 'rigth')
@@ -261,7 +263,7 @@
             for(i in arrayWall){
                 if(player.checkCollision(arrayWall[i]))
                 {
-                    if (direction == 'right') {
+                    if (direction == 'rigth') {
                         player.x -= speed;
                     }   
 
@@ -375,8 +377,6 @@
         });
 
 
-        
-
 
 
 
@@ -392,17 +392,21 @@
             {
                 ctx.fillStyle = this.c;
                 ctx.fillRect(this.x, this.y, this.w, this.h);
-                // ctx.strokeRect(this.x, this.y, this.w, this.h);
             }
 
             this.checkCollision = function (target)
             {
+                
+
                 if(this.x < target.x + target.w && //derecha a izquierda
                     this.x + this.w > target.x && //izquierda a derecha
                     this.y < target.y + target.h && // abajo a arriba
                     this.y + this.h > target.y){ //arriba a abajo
                     return true;  
-                }  
+                }
+                
+                
+
             };
 
         }
