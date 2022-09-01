@@ -41,7 +41,7 @@
         var coin = new Image();
         var block = new Image();
         var side = new Image();
-
+    
         var coinSound = new Audio();
         var themeSong = new Audio();
 
@@ -249,17 +249,21 @@
                 ctx.fillRect(0, 0, cv.width, cv.height);
 
                 ctx.fillStyle = "white";
-                ctx.font = "60px Helvetica";
+                ctx.font = "60px Arial";
                 ctx.fillText('P A U S E', (cv.width/2)-100, cv.height/2);
 
                 pauseTime = true;
 
             } else if(!game){ // Finalizar juego
+                // Cubrir moneda
+                ctx.fillStyle = "white)";
+                ctx.fillRect(finish.x, finish.y, 30, 35);
+
                 ctx.fillStyle = "rgba(0,0,0,0.5)";
                 ctx.fillRect(0, 0, cv.width, cv.height);
 
                 ctx.fillStyle = "white";
-                ctx.font = "60px Helvetica";
+                ctx.font = "60px Arial";
                 ctx.fillText('W I N', (cv.width/2)-100, cv.height/2);
 
                 pauseTime = true;
