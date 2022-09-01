@@ -54,7 +54,7 @@
         var timeHours = '';
         var timeMinutes = '';
         var timeSeconds = '';
-        var time = '';
+        var time = '00:00:00';
 
 
         function createMaze()
@@ -165,14 +165,15 @@
                     timeSeconds = seconds;
                 }
             
-                
+                // Variable con la hora y formatos correctos
+                time = timeHours +":"+ timeMinutes +":"+ timeSeconds;
+
+
             }
             
             
             
         }, 1000);
-
-            
 
 
 
@@ -225,14 +226,14 @@
             ctx.drawImage(side, 960, 0, 200, 1160);
             
             ctx.fillStyle = "white";
-            ctx.font = "30px Helvetica";
+            ctx.font = "30px Arial";
             ctx.fillText('T I M E', 960+50, 100);
 
 
             // Mostrar tiempo
             ctx.fillStyle = "white";
-            ctx.font = "15px Helvetica";
-            ctx.fillText(time, 960+50, 150);
+            ctx.font = "20px Arial";
+            ctx.fillText(time, 960+60, 150);
 
             
             // Mostrar jugador
