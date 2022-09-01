@@ -45,6 +45,17 @@
         var coinSound = new Audio();
         var themeSong = new Audio();
 
+        var pauseTime = false;
+
+        var hours = 0;
+        var minutes = 0;
+        var seconds = 0;
+
+        var timeHours = '';
+        var timeMinutes = '';
+        var timeSeconds = '';
+        var time = '';
+
 
         function createMaze()
         {
@@ -80,7 +91,6 @@
 
         function fillArrays()
         {
-
             createMaze();
 
             for(var i = 0; i < 24; i++)
@@ -118,7 +128,52 @@
         }
         
 
-        
+
+        window.setInterval(() => 
+        {
+            if(!pauseTime)
+            {
+                seconds++;            
+
+                if(seconds >= 60){
+                    seconds = 0;
+                    minutes++;
+                }
+
+                if(minutes >= 60){
+                    minutes = 0;
+                    hours++;
+                }
+
+
+                // Formato a los numeros
+                if(hours < 10){
+                    timeHours = '0' + hours; 
+                } else{
+                    timeHours = hours;
+                }
+
+                if(minutes < 10){
+                    timeMinutes = '0' + minutes; 
+                } else{
+                    timeMinutes = minutes; 
+                }
+
+                if(seconds < 10){ 
+                    timeSeconds = '0' + seconds; 
+                } else{
+                    timeSeconds = seconds;
+                }
+            
+                
+            }
+            
+            
+            
+        }, 1000);
+
+            
+
 
 
         function start()
@@ -155,7 +210,6 @@
 
             // Mostrar laberinto
             for(i in arrayWall){
-                //arrayWall[i].draw(ctx);
                 ctx.drawImage(block, arrayWall[i].x, arrayWall[i].y);
             }
 
@@ -168,20 +222,23 @@
             }
 
             // Mostrar lateral
-            //player.draw(ctx);
             ctx.drawImage(side, 960, 0, 200, 1160);
             
             ctx.fillStyle = "white";
             ctx.font = "30px Helvetica";
             ctx.fillText('T I M E', 960+50, 100);
-            
 
+
+            // Mostrar tiempo
+            ctx.fillStyle = "white";
+            ctx.font = "15px Helvetica";
+            ctx.fillText(time, 960+50, 150);
+
+            
             // Mostrar jugador
-            //player.draw(ctx);
             ctx.drawImage(mario, player.x, player.y);
 
             // Mostrar final
-            //finish.draw(ctx);
             ctx.drawImage(coin, finish.x, finish.y);
             
             
@@ -194,6 +251,8 @@
                 ctx.font = "60px Helvetica";
                 ctx.fillText('P A U S E', (cv.width/2)-100, cv.height/2);
 
+                pauseTime = true;
+
             } else if(!game){ // Finalizar juego
                 ctx.fillStyle = "rgba(0,0,0,0.5)";
                 ctx.fillRect(0, 0, cv.width, cv.height);
@@ -202,10 +261,12 @@
                 ctx.font = "60px Helvetica";
                 ctx.fillText('W I N', (cv.width/2)-100, cv.height/2);
 
-                player.draw = false;
+                pauseTime = true;
+
                 
             }else{
                 update();
+                pauseTime = false;
             }
 
             
@@ -396,16 +457,12 @@
 
             this.checkCollision = function (target)
             {
-                
-
                 if(this.x < target.x + target.w && //derecha a izquierda
                     this.x + this.w > target.x && //izquierda a derecha
                     this.y < target.y + target.h && // abajo a arriba
                     this.y + this.h > target.y){ //arriba a abajo
                     return true;  
                 }
-                
-                
 
             };
 
