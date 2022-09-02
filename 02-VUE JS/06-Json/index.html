@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VUE JS</title>
+</head>
+<body>
+
+    <div id="contenedor">
+
+        <form action="">
+
+            <fieldset>
+                <legend>Datos de acceso</legend>
+
+
+                <label for="">Correo electronico</label>
+                <input type="email" v-model="email">
+
+                <label for="">Contraseña</label>
+                <input type="password" v-model="password">
+
+                <button @click="login">
+                    Acceder
+                </button>
+
+
+            </fieldset>
+
+
+            
+
+        </form>
+        
+        
+
+    </div>
+
+    
+
+
+    <script src="https://unpkg.com/vue@3"></script>
+
+
+
+
+   <script>
+        const { createApp } = Vue
+
+
+        const app = createApp({
+            data(){
+                return{
+                    users: null,
+                    email: '',
+                    password: ''
+                    
+
+                }
+            },
+            methods:{
+
+                login(e){
+
+                    var tmp_email = this.email
+                    var tmp_pwd = this.password
+
+                    var access = this.users.map(function(u)
+                    {
+                        console.log(u)
+
+                        if(tmp_email === u.email)
+                        {
+                            if(tmp_pwd === u.password)
+                            {
+                                var tmp_usr = {
+                                    name: u.name,
+                                    username: u.username,
+                                    email: u.email
+                                }
+
+                                localStorage.setItem('user', tmp_usr);
+                                
+                                alert("Acceso correcto")
+                                window.location.href = "users.html";
+                            }
+                        }
+
+                    })
+
+                    alert("Acceso incorrecto")
+
+                    e.preventDefault()
+
+
+                    
+                }
+                
+                    
+            },
+            mounted(){
+
+                // Va a ser lo primero que se ejecute
+                fetch('users.json')
+                .then((res) => res.json())
+                .then((json) => (this.users = json))
+                .catch((err) => (alert('no data')))
+
+            }
+        }).mount('#contenedor')
+
+   </script>
+
+    
+
+</body>
+</html>

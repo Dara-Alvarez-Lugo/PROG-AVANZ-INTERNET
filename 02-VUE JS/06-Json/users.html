@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VUE JS</title>
+</head>
+<body>
+
+    <div id="contenedor">
+        <h1>{{users}}</h1>
+
+        <table>
+            <thead>DATOS</thead>
+
+            <tr>
+                <td>Name</td>
+                <td>Username</td>
+                <td>Email</td>
+            </tr>
+
+            <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+
+        </table>
+
+        
+
+    </div>
+
+    
+
+
+    <script src="https://unpkg.com/vue@3"></script>
+
+
+
+
+   <script>
+        const { createApp } = Vue
+
+
+        const app = createApp({
+            data(){
+                return{
+                    users: null,
+                }
+            },
+            methods:{
+
+                
+                    
+            },
+            mounted(){
+                var cat = localStorage.getItem('user');
+                var usr = JSON.parse(usr);
+                this.usr = usr.name;
+
+                // fetch('users.json')
+                // .then((res) => res.json())
+                // .then((json) => (this.users = json))
+                // .catch((err) => (alert('no data')))
+
+            }
+
+        }).mount('#contenedor')
+
+   </script>
+
+    
+
+</body>
+</html>
