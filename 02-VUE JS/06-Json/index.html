@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="style.css" rel="stylesheet" type="text/css">
     <title>VUE JS</title>
 </head>
 <body>
@@ -13,17 +14,17 @@
         <form action="">
 
             <fieldset>
-                <legend>Datos de acceso</legend>
+                <legend>Access data</legend>
 
 
-                <label for="">Correo electronico</label>
+                <label for="">Email</label>
                 <input type="email" v-model="email">
 
-                <label for="">Contraseña</label>
+                <label for="">Password</label>
                 <input type="password" v-model="password">
 
                 <button @click="login">
-                    Acceder
+                    Login
                 </button>
 
 
@@ -77,17 +78,27 @@
                                     email: u.email
                                 }
 
-                                alert("Acceso correcto")
 
                                 localStorage.setItem('user', JSON.stringify(tmp_usr));
                                 
-                                window.location.href = "users.html";
+            
+                                alert("Acceso correcto")
+                                return true;
+
+                                
                             }
                         }
 
                     })
 
-                    alert("Acceso incorrecto")
+                    console.log(access)
+                    
+                    if(access.includes(true)){
+                        window.location.href = "users.html";
+                    } else{
+                        alert("Acceso incorrecto")
+                    }
+                    
                     e.preventDefault();
                     
                 }
