@@ -30,11 +30,8 @@
             </fieldset>
 
 
-            
-
         </form>
-        
-        
+                
 
     </div>
 
@@ -56,34 +53,34 @@
                     users: null,
                     email: '',
                     password: ''
-                    
-
                 }
             },
             methods:{
 
                 login(e){
-
-                    var tmp_email = this.email
-                    var tmp_pwd = this.password
+                    
+                    var tmp_email = this.email // Trae el contenido del formulario
+                    var tmp_pwd = this.password // Trae el contenido del formulario
 
                     var access = this.users.map(function(u)
                     {
-                        console.log(u)
+                        console.log(u);
 
                         if(tmp_email === u.email)
                         {
                             if(tmp_pwd === u.password)
                             {
+                                // Objeto
                                 var tmp_usr = {
                                     name: u.name,
                                     username: u.username,
                                     email: u.email
                                 }
 
-                                localStorage.setItem('user', tmp_usr);
-                                
                                 alert("Acceso correcto")
+
+                                localStorage.setItem('user', JSON.stringify(tmp_usr));
+                                
                                 window.location.href = "users.html";
                             }
                         }
@@ -91,10 +88,7 @@
                     })
 
                     alert("Acceso incorrecto")
-
-                    e.preventDefault()
-
-
+                    e.preventDefault();
                     
                 }
                 
@@ -103,7 +97,7 @@
             mounted(){
 
                 // Va a ser lo primero que se ejecute
-                fetch('users.json')
+                fetch('users.json') // fetch(direccion del archivo o url)
                 .then((res) => res.json())
                 .then((json) => (this.users = json))
                 .catch((err) => (alert('no data')))

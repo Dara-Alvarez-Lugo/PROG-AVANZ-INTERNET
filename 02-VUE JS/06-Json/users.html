@@ -4,26 +4,40 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="style.css" rel="stylesheet" type="text/css">
     <title>VUE JS</title>
 </head>
 <body>
 
     <div id="contenedor">
-        <h1>{{users}}</h1>
+        <h1>
+            Bienvenido {{user}}
+        </h1>
 
         <table>
             <thead>DATOS</thead>
 
             <tr>
+                <td>ID</td>
                 <td>Name</td>
                 <td>Username</td>
                 <td>Email</td>
+                <td>Phone</td>
+                <td>website</td>
+                <td>Actions</td>
             </tr>
 
-            <tr>
-                <td></td>
-                <td></td>
-                <td></td>
+            <tr v-for="u in users">
+                <td>{{u.id}}</td>
+                <td>{{u.name}}</td>
+                <td>{{u.username}}</td>
+                <td>{{u.email}}</td>
+                <td>{{u.phone}}</td>
+                <td>{{u.website}}</td>
+                <td>
+                    <button>Edit</button>
+                    <button>Delete</button>
+                </td>
             </tr>
 
         </table>
@@ -47,6 +61,7 @@
         const app = createApp({
             data(){
                 return{
+                    user: '',
                     users: null,
                 }
             },
@@ -56,14 +71,15 @@
                     
             },
             mounted(){
-                var cat = localStorage.getItem('user');
-                var usr = JSON.parse(usr);
-                this.usr = usr.name;
+                var user = localStorage.getItem('user');
+                user = JSON.parse(user);
+                
+                this.user = user.name;
 
-                // fetch('users.json')
-                // .then((res) => res.json())
-                // .then((json) => (this.users = json))
-                // .catch((err) => (alert('no data')))
+                fetch('users.json')
+                .then((res) => res.json())
+                .then((json) => (this.users = json))
+                .catch((err) => (alert('no data')))
 
             }
 
