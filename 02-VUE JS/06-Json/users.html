@@ -14,39 +14,43 @@
             Welcome {{user}}
         </h1>
 
-        <button @click="showForm">
+        <button @click="showFormAdd">
             Add user
         </button>
 
         <table id="user-table" v-if="exp == false">
+            <thead>
+                <tr>
+                    <td>ID</td>
+                    <td>Name</td>
+                    <td>Username</td>
+                    <td>Email</td>
+                    <td>Phone</td>
+                    <td>website</td>
+                    <td>Actions</td>
+                </tr>
 
-            <tr>
-                <td>ID</td>
-                <td>Name</td>
-                <td>Username</td>
-                <td>Email</td>
-                <td>Phone</td>
-                <td>website</td>
-                <td>Actions</td>
-            </tr>
+            </thead>
+            <tbody>
+                <tr v-for="u in users">
+                    <td>{{u.id}}</td>
+                    <td>{{u.name}}</td>
+                    <td>{{u.username}}</td>
+                    <td>{{u.email}}</td>
+                    <td>{{u.phone}}</td>
+                    <td>{{u.website}}</td>
+                    <td>
+                        <button @click="showFormEdit(u)">
+                            Edit
+                        </button>
+                        
+                        <button @click="removeUser(u)">
+                            Remove
+                        </button>
+                    </td>
+                </tr>
 
-            <tr v-for="u in users">
-                <td>{{u.id}}</td>
-                <td>{{u.name}}</td>
-                <td>{{u.username}}</td>
-                <td>{{u.email}}</td>
-                <td>{{u.phone}}</td>
-                <td>{{u.website}}</td>
-                <td>
-                    <button>
-                        Edit
-                    </button>
-                    
-                    <button>
-                        Delete
-                    </button>
-                </td>
-            </tr>
+            </tbody>
 
         </table>
 
@@ -58,22 +62,30 @@
                     <legend>User Data</legend>
     
                     <label for="">Nombre</label>
-                    <input type="text" v-model="name">
-    
+                    <input type="text" v-model="name" required>
+                    <br>
                     <label for="">Username</label>
-                    <input type="text" v-model="username">
-    
+                    <input type="text" v-model="username">    
+                    <br>
                     <label for="">Email</label>
                     <input type="email" v-model="email">
-    
+                    <br>
+                    <label for="">Password</label>
+                    <input type="text" v-model="password">
+                    <br>
                     <label for="">Phone</label>
                     <input type="text" v-model="phone">
-    
+                    <br>
                     <label for="">Website</label>
                     <input type="text" v-model="website">
-    
-                    <button @click="addUser">
-                        Add user
+                    <br>
+
+                    <button @click="saveForm">
+                        Save
+                    </button>
+
+                    <button @click="cancelForm">
+                        Cancel
                     </button>
     
     
@@ -105,22 +117,107 @@
                     user: '',
                     users: null,
                     exp: false,
+                    act: '',
+                    pos: '',
+                    idNew: 10,
+                    id: '',
                     name: '',
                     username: '',
                     email: '',
+                    password: '',
                     phone: '',
                     website: ''
                 }
             },
             methods:{
-                addUser(e){
+                showFormAdd(){
+                    this.act = 'add';
+                    console.log(this.act);
 
+                    this.exp ? this.exp = false : this.exp = true;
                 },
-                showForm(){
+                showFormEdit(u){
+                    this.act = 'edit';
+                    console.log(this.act);
 
-                   this.exp ? this.exp = false : this.exp = true;
+                    this.exp ? this.exp = false : this.exp = true;
+                    
+                    this.id = u.id;
+                    this.name = u.name;
+                    this.username = u.username;
+                    this.email = u.email;
+                    this.password = u.password;
+                    this.phone = u.phone;
+                    this.website = u.website;
+
+                    this.pos = this.users.findIndex(element => element.id === u.id);
+            
+                },
+                saveForm(e){
+
+                    if(this.act == 'add')
+                    {
+                        var tmp_id = this.idNew;
+                        parseInt(tmp_id);
+                        tmp_id++;
+                        this.idNew = tmp_id;
+
+                        var tmp_user = {
+                            id: this.idNew,
+                            name: this.name,
+                            username: this.username,
+                            email: this.email,
+                            password: this.password,
+                            phone: this.phone,
+                            website: this.website
+                        }
+
+                        console.log(tmp_user);
+                        this.users.push(tmp_user);
+
+                    } else if(this.act == 'edit')
+                    {
+                        var tmp_user = {
+                            id: this.id,
+                            name: this.name,
+                            username: this.username,
+                            email: this.email,
+                            password: this.password,
+                            phone: this.phone,
+                            website: this.website
+                        }
+                        console.log(tmp_user);
+                        this.users[this.pos] = tmp_user;
+
+                    }
+
+                    this.name = '';
+                    this.username = '';
+                    this.email = '';
+                    this.password = '';
+                    this.phone = '';
+                    this.website = '';
+
+                    this.exp ? this.exp = false : this.exp = true;
+
+                    e.preventDefault();
+
+                   
+                },
+                cancelForm(){
+                    this.name = '';
+                    this.username = '';
+                    this.email = '';
+                    this.password = '';
+                    this.phone = '';
+                    this.website = '';
+
+                    this.exp ? this.exp = false : this.exp = true;
+                },
+                removeUser(u){
+                    this.pos = this.users.findIndex(element => element.id === u.id);
+                    this.users.splice(this.pos, 1);
                 }
-        
                     
             },
             mounted(){
