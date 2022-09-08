@@ -62,7 +62,7 @@
                     <legend>User Data</legend>
     
                     <label for="">Nombre</label>
-                    <input type="text" v-model="name" required>
+                    <input type="text" v-model="name">
                     <br>
                     <label for="">Username</label>
                     <input type="text" v-model="username">    
@@ -135,6 +135,14 @@
                     console.log(this.act);
 
                     this.exp ? this.exp = false : this.exp = true;
+
+                    this.name = '';
+                    this.username = '';
+                    this.email = '';
+                    this.password = '';
+                    this.phone = '';
+                    this.website = '';
+
                 },
                 showFormEdit(u){
                     this.act = 'edit';
@@ -157,48 +165,60 @@
 
                     if(this.act == 'add')
                     {
-                        var tmp_id = this.idNew;
-                        parseInt(tmp_id);
-                        tmp_id++;
-                        this.idNew = tmp_id;
+                        
+                        if(this.name == '' || this.username == '' || this.email == '' || this.password == '' || this.phone == '' || this.website == '' ){
+                            alert("Empty fields");
 
-                        var tmp_user = {
-                            id: this.idNew,
-                            name: this.name,
-                            username: this.username,
-                            email: this.email,
-                            password: this.password,
-                            phone: this.phone,
-                            website: this.website
+                        } else{
+                            var tmp_id = this.idNew;
+                            parseInt(tmp_id);
+                            tmp_id++;
+                            this.idNew = tmp_id;
+
+                            var tmp_user = {
+                                id: this.idNew,
+                                name: this.name,
+                                username: this.username,
+                                email: this.email,
+                                password: this.password,
+                                phone: this.phone,
+                                website: this.website
+                            }
+
+                            console.log(tmp_user);
+                            this.users.push(tmp_user);
+
+                            this.exp ? this.exp = false : this.exp = true;
+
                         }
 
-                        console.log(tmp_user);
-                        this.users.push(tmp_user);
 
                     } else if(this.act == 'edit')
                     {
-                        var tmp_user = {
-                            id: this.id,
-                            name: this.name,
-                            username: this.username,
-                            email: this.email,
-                            password: this.password,
-                            phone: this.phone,
-                            website: this.website
+                        
+                        if(this.name == '' || this.username == '' || this.email == '' || this.password == '' || this.phone == '' || this.website == '' ){
+                            alert("Empty fields");
+
+                        }else{
+
+                            var tmp_user = {
+                                id: this.id,
+                                name: this.name,
+                                username: this.username,
+                                email: this.email,
+                                password: this.password,
+                                phone: this.phone,
+                                website: this.website
+                            }
+                            console.log(tmp_user);
+                            this.users[this.pos] = tmp_user;
+
+                            this.exp ? this.exp = false : this.exp = true; 
+
                         }
-                        console.log(tmp_user);
-                        this.users[this.pos] = tmp_user;
+                                               
 
-                    }
-
-                    this.name = '';
-                    this.username = '';
-                    this.email = '';
-                    this.password = '';
-                    this.phone = '';
-                    this.website = '';
-
-                    this.exp ? this.exp = false : this.exp = true;
+                    }                    
 
                     e.preventDefault();
 
