@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx"
+      crossorigin="anonymous"
+    />
+    <title>VUE JS</title>
+</head>
+<body>
+
+    <div id="container">
+
+        <nav class="navbar navbar-dark bg-dark">
+            <h1 class="text-white ps-5">Popular movies</h1>
+        </nav>
+
+        <div class="container">
+            <div class="row m-4">
+                <template v-for="m in movies">
+                    <div class="col-sm-3">
+                        <div class="card m-4" style="width: 18rem;">
+                            <img v-bind:src="`https://image.tmdb.org/t/p/w500/${m.poster_path}`" alt="" class="card-img-top">
+                            <div class="card-body">
+                                <h5 class="card-title">{{m.title}}</h5>
+                                <p class="card-text">{{m.release_date}}</p>
+                                <button @click="details(m.id)" class="btn btn-primary">
+                                    Details
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </template>
+            </div>
+
+        </div>
+
+        
+
+        
+        
+    </div>
+
+
+
+
+
+    <script src="https://unpkg.com/vue@3"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
+
+
+
+   <script>
+
+        const { createApp } = Vue
+
+
+        const app = createApp({
+            data(){
+                return{
+                    movies: ''
+                }
+            },
+            methods:{
+                getPopularMovies(){
+
+                    const c = this;
+                    
+                    // var axios = require('axios');
+
+                    var config = {
+                        method: 'get',
+                        url: 'https://api.themoviedb.org/3/movie/popular?language=en-US&page=1',
+                        headers: { 
+                            'Authorization': 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI5ZDU1YWRlYTFjN2MxYTljNDM4NjNlOTZmNzg3MzU1ZiIsInN1YiI6IjYzMWJkYTc1NjdkY2M5MDA3YWZhNTQ3OSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.GUPnnoSwSWfQ1ZgMpf84XzOiJG47gQaN-0oUVEopB5M'
+                        }
+                    };
+
+                    axios(config)
+                    .then(function (response) {
+                        c.movies = response.data.results;
+                        console.log(c.movies);
+                    })
+                    .catch(function (error) {
+                        console.log(error);
+                    });
+                    
+            
+                },
+                details(m){
+                    console.log(m);
+                    localStorage.setItem('movie_id', JSON.stringify(m));
+                    window.location.href = "details.html";
+                }
+                
+                    
+            },
+            mounted(){
+
+                this.getPopularMovies();
+                
+            }
+
+        }).mount('#container')
+
+   </script>
+
+    
+
+</body>
+</html>
