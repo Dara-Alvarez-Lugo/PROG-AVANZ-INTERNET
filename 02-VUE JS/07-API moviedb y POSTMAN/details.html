@@ -21,52 +21,56 @@
         </nav>
 
 
-        <div class="row featurette mt-5">
+        <div v-if= "movie != null">
 
-            <!-- <img v-bind:src="`https://image.tmdb.org/t/p/w500/${movieDetails.backdrop_path}`" alt="" class=""> -->
-            <div class="img-fluid col-md-5  order-md-1">
-                <img v-bind:src="`https://image.tmdb.org/t/p/w500/${movieDetails.poster_path}`" alt="" class="rounded mx-auto d-block">
-            </div>
+            <div class="row featurette mt-5">
 
-            <div class="col-md-4 order-md-2">
-                <h2><strong>{{movieDetails.original_title}}</strong></h2>
-                <p>{{movieDetails.release_date}}</p>
-
-                <p><strong>Original language: </strong>{{movieDetails.original_language}}</p>
-                <p><strong>Time: </strong>{{movieDetails.runtime}} m</p>
-
-                <p><strong>Genres: </strong></p>
-                <ul v-for="genre in movieDetails.genres">
-                    <li>{{genre.name}}</li>
-                </ul>
-                
-                <p><em>{{movieDetails.tagline}}</em></p>
-                
-                <p><strong>Overview</strong></p>
-                <p>{{movieDetails.overview}}</p>
-
-
-                <div class="mt-5">
-                    <form action="">
-                        <label for="" class="form-label fw-bold">Rating</label>
-                        <br>
-                        <input type="range"  clase="form-range" v-model="movieRating" min="0.5" max="10" step="0.5">
-                        <br>
-                        <button @click="save" class="btn btn-success btn-sm me-2">
-                            Save
-                        </button>
-                        <button @click="remove" class="btn btn-danger btn-sm me-2">
-                            Remove
-                        </button>
-                        
-                    </form>
+                <!-- <img v-bind:src="`https://image.tmdb.org/t/p/w500/${movie.backdrop_path}`" alt="" class=""> -->
+                <div class="img-fluid col-md-5  order-md-1">
+                    <img v-bind:src="`https://image.tmdb.org/t/p/w500/${movie.poster_path}`" alt="" class="rounded mx-auto d-block">
                 </div>
-
-
+    
+                <div class="col-md-4 order-md-2">
+                    <h2><strong>{{movie.original_title}}</strong></h2>
+                    <p>{{movie.release_date}}</p>
+    
+                    <p><strong>Original language: </strong>{{movie.original_language}}</p>
+                    <p><strong>Time: </strong>{{movie.runtime}} m</p>
+    
+                    <p><strong>Genres: </strong></p>
+                    <ul v-for="g in movie.genres">
+                        <li>{{g.name}}</li>
+                    </ul>
+                    
+                    <p><em>{{movie.tagline}}</em></p>
+                    
+                    <p><strong>Overview</strong></p>
+                    <p>{{movie.overview}}</p>
+    
+    
+                    <div class="mt-5">
+                        <form action="">
+                            <label for="" class="form-label fw-bold">Rating</label>
+                            <br>
+                            <input type="range"  clase="form-range" v-model="movieRating" min="0.5" max="10" step="0.5">
+                            <br>
+                            <button @click="save" class="btn btn-success btn-sm me-2">
+                                Save
+                            </button>
+                            <button @click="remove" class="btn btn-danger btn-sm me-2">
+                                Remove
+                            </button>
+                            
+                        </form>
+                    </div>
+    
+    
+                </div>
+                
             </div>
-            
-        </div>
 
+        </div>
+        
         
     </div>
 
@@ -88,12 +92,15 @@
         const app = createApp({
             data(){
                 return{
-                    movieDetails: '',
-                    movie_id: '',
+                    movie: null,
+                    movie_id: 0,
                     movieRating: null
                 }
             },
             methods:{
+                getLinkName(t){ 
+					return t.replaceAll(' ', '-')
+				},
                 getDetails(){
                     
                     const c = this;
@@ -115,8 +122,8 @@
                     axios(config)
                     .then(function (response) {
                         // console.log(JSON.stringify(response.data));
-                        c.movieDetails = response.data;
-                        console.log(c.movieDetails);
+                        c.movie = response.data;
+                        console.log(c.movie);
                     })
                     .catch(function (error) {
                         console.log(error);
@@ -196,10 +203,27 @@
             },
             mounted(){
 
-                var movie_id = localStorage.getItem('movie_id');
-                movie_id = JSON.parse(movie_id);
+                // var movie_id = localStorage.getItem('movie_id');
+                // movie_id = JSON.parse(movie_id);
                 
-                this.movie_id = movie_id;
+                // this.movie_id = movie_id;
+
+                console.log(window.location.href)
+                
+                const linkArray = window.location.href.split("/");
+                let word = linkArray[linkArray.length-1];
+                console.log(word)
+
+                var ret = word.replace('details.html?movie=','');
+                console.log(ret)
+
+                const linkArray2 = ret.split("-");
+                
+                let id = linkArray2[0];
+                console.log(id)
+
+                this.movie_id = id;
+
 
                 this.getDetails();
                 

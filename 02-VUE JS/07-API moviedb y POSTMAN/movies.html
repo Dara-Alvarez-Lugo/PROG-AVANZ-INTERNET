@@ -29,9 +29,12 @@
                             <div class="card-body">
                                 <h5 class="card-title">{{m.title}}</h5>
                                 <p class="card-text">{{m.release_date}}</p>
-                                <button @click="details(m.id)" class="btn btn-primary">
+                                <!-- <button @click="details(m.id)" class="btn btn-primary">
                                     Details
-                                </button>
+                                </button> -->
+                                <a :href="`details.html?movie=${m.id}-${getLinkName(m.title)}`" class="btn btn-primary">
+                                    Details
+                                </a>
                             </div>
                         </div>
                     </div>
@@ -68,6 +71,9 @@
                 }
             },
             methods:{
+                getLinkName(t){ 
+					return t.replaceAll(' ', '-')
+				},
                 getPopularMovies(){
 
                     const c = this;
