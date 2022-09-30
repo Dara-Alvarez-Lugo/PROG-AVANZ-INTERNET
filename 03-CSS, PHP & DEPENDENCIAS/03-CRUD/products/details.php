@@ -31,11 +31,9 @@
 									/Productos
 								</label>
 							</div>
-							<div class="col">
-								<button data-bs-toggle="modal" data-bs-target="#addProductModal" class=" float-end btn btn-primary">
-									Añadir producto
-								</button>
-							</div>
+							<!-- <div class="col">
+								
+							</div> -->
 						</div> 
 					</section>
 					
@@ -58,9 +56,6 @@
 											</a>
 											<a onclick="eliminar(this)" href="#" class="btn btn-danger mb-1 col-6">
 												Eliminar
-											</a>
-											<a href="" class="btn btn-info col-12">
-												Detalles
 											</a>
 										</div>
 
