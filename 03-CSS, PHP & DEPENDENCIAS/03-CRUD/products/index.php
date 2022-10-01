@@ -46,40 +46,42 @@
 						</div> 
 					</section>
 					
+
 					<section>
 						
 						<div class="row">
 
-							<?php if(isset($products) && count($products)):?>
-							<?php foreach($products as $product):?>
+							<?php if(isset($products) && count($products) > 0):?>
+								<?php foreach($products as $product):?>
 
-								<div class="col-md-4 col-sm-12"> 
+									<div class="col-md-4 col-sm-12"> 
 
-									<div class="card mb-2">
-									<img src="<?= $product->cover ?>" class="card-img-top" alt="...">
-									<div class="card-body">
-										<h5 class="card-title"><?= $product->name ?></h5>
-										<h6 class="card-subtitle mb-2 text-muted"><?= $product->brand->name ?></h6>
-										<p class="card-text"><?= $product->description ?></p>
+										<div class="card mb-2">
+										<img src="<?= $product->cover ?>" class="card-img-top" alt="...">
+										<div class="card-body">
+											<h5 class="card-title"><?= $product->name ?></h5>
+											<h6 class="card-subtitle mb-2 text-muted"><?= $product->brand->name ?></h6>
+											<p class="card-text"><?= $product->description ?></p>
 
-										<div class="row">
-											<a data-bs-toggle="modal" data-bs-target="#addProductModal" href="#" class="btn btn-warning mb-1 col-6">
-												Editar
-											</a>
-											<a onclick="eliminar(this)" href="#" class="btn btn-danger mb-1 col-6">
-												Eliminar
-											</a>
-											<a href="details.php" class="btn btn-info col-12">
-												Detalles
-											</a>
+											<div class="row">
+												<a data-bs-toggle="modal" data-bs-target="#addProductModal" href="#" class="btn btn-warning mb-1 col-6">
+													Editar
+												</a>
+												<a onclick="eliminar(this)" href="#" class="btn btn-danger mb-1 col-6">
+													Eliminar
+												</a>
+												<a href="details.php" class="btn btn-info col-12">
+													Detalles
+												</a>
+											</div>
+
 										</div>
+										</div>  
 
 									</div>
-									</div>  
 
-								</div>
-
-							<? endforeach;?>
+								<?php endforeach;?>
+							<?php endif;?>
 
 
 						</div>
@@ -112,10 +114,10 @@
 			      <div class="modal-body">
 			        
 			        <?php for ($i=0; $i < 6; $i++): ?>
-			        <div class="input-group mb-3">
-					  <span class="input-group-text" id="basic-addon1">@</span>
-					  <input required type="text" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1">
-					</div>
+						<div class="input-group mb-3">
+						<span class="input-group-text" id="basic-addon1">@</span>
+						<input required type="text" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1">
+						</div>
 					<?php endfor; ?>
 
 			      </div>
