@@ -11,11 +11,21 @@ if(isset($_POST["action"])){
             $features = strip_tags($_POST['features']);
             $brand_id = strip_tags($_POST['brand_id']);
 
-            $productsController = new ProductsController();
-
             $slug = preg_replace('/[^A-Za-z0-9-]+/','-', $name);
 
-            $productsController->postProducts($name, $slug ,$description, $features, $brand_id);
+
+            $file = "../public/img/";
+            $file = $file . basename($_FILES['cover']['name']);
+
+            if(move_uploaded_file($_FILES['cover']['name'], $target_path)) {
+                echo "El archivo se ha sido subido";
+            } else{
+                echo "No se ha subido la imagen correctamente";
+            }
+
+            $productsController = new ProductsController();
+
+            $productsController->postProducts($name, $file, $slug ,$description, $features, $brand_id);
             
         break;
     }
@@ -59,7 +69,7 @@ Class ProductsController
     }
 
 
-    public function postProducts($name, $slug, $description, $features, $brand_id)
+    public function postProducts($name, $file, $slug, $description, $features, $brand_id)
     {
 
         $curl = curl_init();
@@ -79,7 +89,7 @@ Class ProductsController
             'description' => $description,
             'features' => $description,
             'brand_id' => $brand_id,
-            ),
+            'cover'=> new CURLFILE($file)),
         CURLOPT_HTTPHEADER => array(
             'Authorization: Bearer '.$_SESSION['token']
         ),
@@ -90,15 +100,15 @@ Class ProductsController
         curl_close($curl);
         // echo $response;
 
-
         $response = json_decode($response);
         
 
         if(isset($response->code) && $response->code > 0){
-            return $response->data;
-
+            header("Location:../products/index.php?".$response->message);
+            //return $response->data;
         }else{
-            return array();
+            header("Location:../products/index.php?Error");
+            //return array();
         }
 
 

@@ -110,7 +110,7 @@
 		        	<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 		      </div>
 
-		      <form method="post" action="../app/ProductsController.php">
+		      <form method="post" enctype="multipart/form-data" action="../app/ProductsController.php">
 				
 			 	 <div class="modal-body">
 
@@ -138,6 +138,11 @@
 						<input name="brand_id" required type="text" class="form-control" placeholder="Brand ID" aria-label="Username" aria-describedby="basic-addon1">
 					</div>
 
+					<!-- <label for="">Imagen</label> -->
+					<div class="mb-3">
+						<input name="cover" class="form-control" type="file" accept="image/*" id="formFileMultiple" multiple>
+					</div>
+
 
 					<input type="hidden" name="action" value="add">
 
@@ -146,10 +151,10 @@
 
 			      <div class="modal-footer">
 			        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
-			        	Close
+			        	Cerrar
 			        </button>
 			        <button type="submit" class="btn btn-primary">
-			        	Save changes
+			        	Guardar
 			        </button>
 
 			      </div>
