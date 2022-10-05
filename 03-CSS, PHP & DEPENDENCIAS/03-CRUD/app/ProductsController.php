@@ -6,6 +6,7 @@ session_start();
 if(isset($_POST["action"])){
     switch($_POST["action"]){
         case 'add':
+            // var_dump($_POST);
             $name = strip_tags($_POST['name']);
             $description = strip_tags($_POST['description']);
             $features = strip_tags($_POST['features']);

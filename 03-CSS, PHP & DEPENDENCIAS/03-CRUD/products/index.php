@@ -1,5 +1,9 @@
 <?php
 	include '../app/ProductsController.php';
+	include '../app/BrandsController.php';
+
+	$brandController = new BrandsController();
+	$brands = $brandController->getBrands();
 
 	$productController = new ProductsController();
 	$products = $productController->getProducts();
@@ -135,7 +139,15 @@
 					<!-- <label for="">Brand ID</label> -->
 					<div class="input-group mb-3">
 						<span class="input-group-text" id="basic-addon1">@</span>
-						<input name="brand_id" required type="text" class="form-control" placeholder="Brand ID" aria-label="Username" aria-describedby="basic-addon1">
+						<!-- <input name="brand_id" required type="text" class="form-control" placeholder="Brand ID" aria-label="Username" aria-describedby="basic-addon1"> -->
+
+						<select name="" id="">
+							<?php foreach($brands as $brand):?>
+								<option value="<?=$brand->id?>">
+									<?= $brand->name?>
+								</option>
+							<?php endforeach; ?>
+						</select>
 					</div>
 
 					<!-- <label for="">Imagen</label> -->
