@@ -3,6 +3,7 @@
 
 	$productController = new ProductsController();
 	$products = $productController->getProducts();
+
 ?>
 
 <!DOCTYPE html>
@@ -105,21 +106,42 @@
 		  <div class="modal-dialog">
 		    <div class="modal-content">
 		      <div class="modal-header">
-		        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-		        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+		        	<h5 class="modal-title" id="exampleModalLabel">Añadir producto</h5>
+		        	<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 		      </div>
 
-		      <form>
+		      <form method="post" action="../app/ProductsController.php">
+				
+			 	 <div class="modal-body">
 
-			      <div class="modal-body">
-			        
-			        <?php for ($i=0; $i < 6; $i++): ?>
-						<div class="input-group mb-3">
+				  	<!-- <label for="">Name</label> -->
+					<div class="input-group mb-3">
 						<span class="input-group-text" id="basic-addon1">@</span>
-						<input required type="text" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1">
-						</div>
-					<?php endfor; ?>
+						<input name="name" required type="text" class="form-control" placeholder="Name" aria-label="Username" aria-describedby="basic-addon1">
+					</div>
 
+					<!-- <label for="">Description</label> -->
+					<div class="input-group mb-3">
+						<span class="input-group-text" id="basic-addon1">@</span>
+						<input name="description" required type="text" class="form-control" placeholder="Description" aria-label="Username" aria-describedby="basic-addon1">
+					</div>
+
+					<!-- <label for="">Features</label> -->
+					<div class="input-group mb-3">
+						<span class="input-group-text" id="basic-addon1">@</span>
+						<input name="features" required type="text" class="form-control" placeholder="Features" aria-label="Username" aria-describedby="basic-addon1">
+					</div>
+
+					<!-- <label for="">Brand ID</label> -->
+					<div class="input-group mb-3">
+						<span class="input-group-text" id="basic-addon1">@</span>
+						<input name="brand_id" required type="text" class="form-control" placeholder="Brand ID" aria-label="Username" aria-describedby="basic-addon1">
+					</div>
+
+
+					<input type="hidden" name="action" value="add">
+
+					
 			      </div>
 
 			      <div class="modal-footer">
@@ -129,12 +151,15 @@
 			        <button type="submit" class="btn btn-primary">
 			        	Save changes
 			        </button>
+
 			      </div>
 
 		      </form>
 
 		    </div>
+
 		  </div>
+		  
 		</div>
 
 
