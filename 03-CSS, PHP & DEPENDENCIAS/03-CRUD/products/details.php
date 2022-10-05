@@ -1,3 +1,12 @@
+<?php
+	include '../app/ProductsController.php';
+
+	$productController = new ProductsController();
+	$a = $_GET['slug'];
+	$product = $productController->detailsProducts($a);
+
+?>
+
 <!DOCTYPE html>
 <html>
 
@@ -44,11 +53,29 @@
 							<div class="col-md-4 col-sm-12"> 
 
 								<div class="card mb-2">
-									<img src="../public/img/logo.jpg" class="card-img-top" alt="...">
+									<img src="<?= $product->cover ?>" class="card-img-top" alt="...">
 									<div class="card-body">
-										<h5 class="card-title">Card title</h5>
-										<h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
-										<p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+										<h5 class="card-title"><?= $product->name ?></h5>
+										<h6 class="card-subtitle mb-2 text-muted"><?= $product->brand->name ?></h6>
+										<p class="card-text"><?= $product->description ?></p>
+
+										<p>Marca</p>
+										<p><?= $product->brand->name ?></p>
+
+										<p>Categoria</p>
+										<?php if (isset($product->categories) && count($product->categories) > 0) : ?>
+											<?php foreach($product->categories as $item): ?>
+												<p><?= $item->name; ?></p>
+											<?php  endforeach; ?>
+										<?php endif; ?>
+
+										<p>Etiquetas</p>
+										<?php if (isset($product->tags) && count($product->tags) > 0) : ?>
+											<?php foreach($product->tags as $item): ?>
+												<p><?= $item->name; ?></p>
+											<?php  endforeach; ?>
+										<?php endif; ?>
+
 
 										<div class="row">
 											<a data-bs-toggle="modal" data-bs-target="#addProductModal" href="#" class="btn btn-warning mb-1 col-6">
@@ -76,42 +103,10 @@
 
 		</div>
 
+
+
 		<!-- MODAL -->
-		<div class="modal fade" id="addProductModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-		  <div class="modal-dialog">
-		    <div class="modal-content">
-		      <div class="modal-header">
-		        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-		        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-		      </div>
-
-		      <form>
-
-			      <div class="modal-body">
-			        
-			        <?php for ($i=0; $i < 6; $i++): ?>
-			        <div class="input-group mb-3">
-					  <span class="input-group-text" id="basic-addon1">@</span>
-					  <input required type="text" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1">
-					</div>
-					<?php endfor; ?>
-
-			      </div>
-
-			      <div class="modal-footer">
-			        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
-			        	Close
-			        </button>
-			        <button type="submit" class="btn btn-primary">
-			        	Save changes
-			        </button>
-			      </div>
-
-		      </form>
-
-		    </div>
-		  </div>
-		</div>
+		
 
 
 
