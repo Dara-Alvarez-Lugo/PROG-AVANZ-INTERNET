@@ -69,10 +69,10 @@
 											<p class="card-text"><?= $product->description ?></p>
 
 											<div class="row">
-												<a data-bs-toggle="modal" data-bs-target="#addProductModal" href="#" class="btn btn-warning mb-1 col-6">
+												<a onclick="eliminar(<?$product->id?>)" href="#" class="btn btn-warning mb-1 col-6">
 													Editar
 												</a>
-												<a onclick="eliminar(this)" href="#" class="btn btn-danger mb-1 col-6">
+												<a a onclick="eliminar(<?= $product->id ?>)" href="#" class="btn btn-danger mb-1 col-6">
 													Eliminar
 												</a>
 												<a href="details.php?slug=<?= $product->slug ?>" class="btn btn-info col-12">
@@ -192,7 +192,7 @@
 
 		<script type="text/javascript">
 
-			function eliminar(target)
+			function eliminar(id)
 			{
 				swal({
 				  title: "Are you sure?",
@@ -202,13 +202,28 @@
 				  dangerMode: true,
 				})
 				.then((willDelete) => {
-				  if (willDelete) {
-				    swal("Poof! Your imaginary file has been deleted!", {
-				      icon: "success",
-				    });
-				  } else {
-				    swal("Your imaginary file is safe!");
-				  }
+					if (willDelete) 
+					{
+
+						swal("Poof! Your imaginary file has been deleted!", {
+							icon: "success",
+						});
+						var bodyFormData = new FormData();
+						bodyFormData.append('id', id);
+						bodyFormData.append('action', 'delete');
+						axios.post('../app/ProductsController.php', bodyFormData)
+							.then(function(response) {
+								console.log(response);
+								location.reload();
+							})
+							.catch(function(error) {
+								console.log(error);
+							});
+						}
+						
+					else{
+						swal("Your imaginary file is safe!");
+				 	}
 				});
 			}
 		</script>
