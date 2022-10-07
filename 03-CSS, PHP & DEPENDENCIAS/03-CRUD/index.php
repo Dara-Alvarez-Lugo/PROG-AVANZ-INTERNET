@@ -27,7 +27,7 @@ include "app/config.php";
         <div class="row registro justify-content-md-center">
             <div class="col-md-6 col-sm-12">
 
-                <form method="post" action="app/AuthController.php">
+                <form method="post" action="<?= BASE_PATH ?>auth">
 
                     <h1>Acceso al panel</h1>
 

@@ -1,6 +1,7 @@
 <?php
 include_once "config.php";
 
+
 if(isset($_POST["action"])){
 
     if(isset($_POST['super_token']) && $_POST['super_token'] == $_SESSION['super_token']){
@@ -61,10 +62,10 @@ Class AuthController
             $_SESSION['role'] = $response->data->role;
             $_SESSION['token'] = $response->data->token;
 
-            header("Location:../products?success");
+            header("Location:".BASE_PATH."/products?success");
 
         }else{
-            header("Location:../?error");
+            header("Location:".BASE_PATH."/?error");
         }
 
         
