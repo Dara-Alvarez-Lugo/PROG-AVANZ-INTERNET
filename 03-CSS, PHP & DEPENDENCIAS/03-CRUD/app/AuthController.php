@@ -1,16 +1,24 @@
 <?php
+include_once "config.php";
 
 if(isset($_POST["action"])){
-    switch($_POST["action"]){
-        case 'access':
-            $email = strip_tags($_POST['email']);
-            $password = strip_tags($_POST['password']);
 
-            $authController = new AuthController();
-            $authController->login($email, $password);
+    if(isset($_POST['super_token']) && $_POST['super_token'] == $_SESSION['super_token']){
 
-        break;
+        switch($_POST["action"]){
+            case 'access':
+                $email = strip_tags($_POST['email']);
+                $password = strip_tags($_POST['password']);
+    
+                $authController = new AuthController();
+                $authController->login($email, $password);
+    
+            break;
+        }
+
     }
+
+    
 }
 
 

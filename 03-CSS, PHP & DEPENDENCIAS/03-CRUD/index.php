@@ -1,3 +1,9 @@
+<?php
+
+include "app/config.php";
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -43,6 +49,8 @@
 
 
                     <input type="hidden" name="action" value="access">
+
+                    <input type="hidden" name="super_token" value="<?= $_SESSION['super_token'] ?>">
 
 
                 </form>

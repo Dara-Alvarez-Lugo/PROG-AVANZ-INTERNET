@@ -69,9 +69,9 @@
 											<p class="card-text"><?= $product->description ?></p>
 
 											<div class="row">
-												<a onclick="eliminar(<?$product->id?>)" href="#" class="btn btn-warning mb-1 col-6">
+												<button data-bs-toggle="modal" data-bs-target="#addProductModal" class="btn btn-warning mb-1 col-6">
 													Editar
-												</a>
+												</button>
 												<a a onclick="eliminar(<?= $product->id ?>)" href="#" class="btn btn-danger mb-1 col-6">
 													Eliminar
 												</a>
