@@ -2,8 +2,8 @@
 	include '../app/ProductsController.php';
 	include '../app/BrandsController.php';
 
-	$brandController = new BrandsController();
-	$brands = $brandController->getBrands();
+	$brandsController = new BrandsController();
+	$brands = $brandsController->getBrands();
 
 	$productController = new ProductsController();
 	$products = $productController->getProducts();
@@ -56,7 +56,7 @@
 						
 						<div class="row">
 
-							<?php if(isset($products) && count($products) > 0):?>
+							<?php if(isset($products) && count($products)):?>
 								<?php foreach($products as $product):?>
 
 									<div class="col-md-4 col-sm-12"> 
@@ -69,9 +69,9 @@
 											<p class="card-text"><?= $product->description ?></p>
 
 											<div class="row">
-												<button data-bs-toggle="modal" data-bs-target="#addProductModal" class="btn btn-warning mb-1 col-6">
+												<a data-product='<?= json_encode($product) ?>' onclick="editProduct(this)" data-bs-toggle="modal" data-bs-target="#addProductModal" href="#" class="btn btn-warning mb-1 col-6">
 													Editar
-												</button>
+												</a>
 												<a a onclick="eliminar(<?= $product->id ?>)" href="#" class="btn btn-danger mb-1 col-6">
 													Eliminar
 												</a>
@@ -110,73 +110,71 @@
 		  <div class="modal-dialog">
 		    <div class="modal-content">
 		      <div class="modal-header">
-		        	<h5 class="modal-title" id="exampleModalLabel">Añadir producto</h5>
-		        	<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+		        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+		        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 		      </div>
 
-		      <form method="post" enctype="multipart/form-data" action="../app/ProductsController.php">
-				
-			 	 <div class="modal-body">
+		      <form enctype="multipart/form-data" method="post" action="../app/ProductsController.php">
 
-				  	<!-- <label for="">Name</label> -->
+			    <div class="modal-body">
+			        
 					<div class="input-group mb-3">
-						<span class="input-group-text" id="basic-addon1">@</span>
-						<input name="name" required type="text" class="form-control" placeholder="Name" aria-label="Username" aria-describedby="basic-addon1">
+					<span class="input-group-text" id="basic-addon1">@</span>
+					<input id="name" name="name" required type="text" class="form-control" placeholder="Nombre" aria-label="Username" aria-describedby="basic-addon1">
 					</div>
 
-					<!-- <label for="">Description</label> -->
 					<div class="input-group mb-3">
-						<span class="input-group-text" id="basic-addon1">@</span>
-						<input name="description" required type="text" class="form-control" placeholder="Description" aria-label="Username" aria-describedby="basic-addon1">
+					<span class="input-group-text" id="basic-addon1">@</span>
+					<input id="slug" name="slug" required type="text" class="form-control" placeholder="Url amigable" aria-label="Username" aria-describedby="basic-addon1">
 					</div>
 
-					<!-- <label for="">Features</label> -->
 					<div class="input-group mb-3">
-						<span class="input-group-text" id="basic-addon1">@</span>
-						<input name="features" required type="text" class="form-control" placeholder="Features" aria-label="Username" aria-describedby="basic-addon1">
+					<span class="input-group-text" id="basic-addon1">@</span>
+					<textarea id="description" name="description" placeholder="Escríbe aquí" class="form-control"></textarea> 
 					</div>
 
-					<!-- <label for="">Brand ID</label> -->
 					<div class="input-group mb-3">
-						<span class="input-group-text" id="basic-addon1">@</span>
-						<!-- <input name="brand_id" required type="text" class="form-control" placeholder="Brand ID" aria-label="Username" aria-describedby="basic-addon1"> -->
-
-						<select name="" id="">
-							<?php foreach($brands as $brand):?>
-								<option value="<?=$brand->id?>">
-									<?= $brand->name?>
-								</option>
-							<?php endforeach; ?>
-						</select>
+					<span class="input-group-text" id="basic-addon1">@</span>
+					<input id="features" name="features" required type="text" class="form-control" placeholder="Carácteristicas" aria-label="Username" aria-describedby="basic-addon1">
 					</div>
 
-					<!-- <label for="">Imagen</label> -->
-					<div class="mb-3">
-						<input name="cover" class="form-control" type="file" accept="image/*" id="formFileMultiple" multiple>
+					<div class="input-group mb-3">
+					<span class="input-group-text" id="basic-addon1">@</span>
+
+					<select id="brand_id" name="brand_id" required class="form-control">
+						<?php foreach ($brands as $brand): ?>
+							<option value="<?= $brand->id ?>" >
+								<?= $brand->name ?>
+							</option>
+						<?php endforeach ?>
+						
+					</select> 
 					</div>
 
+					<div class="input-group mb-3">
+					<span class="input-group-text" id="basic-addon1">@</span>
+					<input name="cover" type="file" required class="form-control" placeholder="Nombre" aria-label="Username" aria-describedby="basic-addon1">
+					</div>
 
-					<input type="hidden" name="action" value="add">
+			    </div>
 
-					
-			      </div>
+			    <div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+						Close
+					</button>
+					<button type="submit" class="btn btn-primary">
+						Save changes
+					</button>
+			    </div>
 
-			      <div class="modal-footer">
-			        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
-			        	Cerrar
-			        </button>
-			        <button type="submit" class="btn btn-primary">
-			        	Guardar
-			        </button>
+			      <input type="hidden" id="action" name="action" value="create">
 
-			      </div>
+			      <input type="hidden" id="id_product" name="id">
 
 		      </form>
 
 		    </div>
-
 		  </div>
-		  
 		</div>
 
 
@@ -226,6 +224,26 @@
 				 	}
 				});
 			}
+
+
+			function editProduct(target)
+			{
+			
+				let product = JSON.parse( target.dataset.product )
+
+				document.getElementById('name').value = product.name
+				document.getElementById('slug').value = product.slug
+				document.getElementById('description').value = product.description
+				document.getElementById('features').value = product.features
+				document.getElementById('brand_id').value = product.brand_id
+
+				document.getElementById('id_product').value = product.id
+
+
+				document.getElementById('action').value = 'update'
+
+			}
+
 		</script>
 
 	</body>

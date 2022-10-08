@@ -5,29 +5,30 @@ include_once "config.php";
 
 if(isset($_POST["action"])){
     switch($_POST["action"]){
-        case 'add':
-            // var_dump($_POST);
+        case 'create':
             $name = strip_tags($_POST['name']);
+            $slug = strip_tags($_POST['slug']);
             $description = strip_tags($_POST['description']);
             $features = strip_tags($_POST['features']);
             $brand_id = strip_tags($_POST['brand_id']);
 
-            $slug = preg_replace('/[^A-Za-z0-9-]+/','-', $name);
+            $productsController = new ProductsController();
+            $productsController->postProducts($name, $slug ,$description, $features, $brand_id);
+            
+        break;
 
+        case 'update':
 
-            $file = "../public/img/";
-            $file = $file . basename($_FILES['cover']['name']);
+            $name = strip_tags($_POST['name']);
+            $slug = strip_tags($_POST['slug']);
+            $description = strip_tags($_POST['description']);
+            $features = strip_tags($_POST['features']);
+            $brand_id = strip_tags($_POST['brand_id']); 
 
-            if(move_uploaded_file($_FILES['cover']['name'], $target_path)) {
-                echo "El archivo se ha sido subido";
-            } else{
-                echo "No se ha subido la imagen correctamente";
-            }
+            $id = strip_tags($_POST['id']); 
 
             $productsController = new ProductsController();
-
-            $productsController->postProducts($name, $file, $slug ,$description, $features, $brand_id);
-            
+            $productsController->updateProduct($name, $slug, $description, $features, $brand_id, $id);
         break;
 
         case 'delete':
@@ -77,7 +78,7 @@ Class ProductsController
     }
 
 
-    public function postProducts($name, $file, $slug, $description, $features, $brand_id)
+    public function postProducts($name, $slug, $description, $features, $brand_id)
     {
 
         $curl = curl_init();
@@ -95,9 +96,10 @@ Class ProductsController
             'name' => $name,
             'slug' => $slug,
             'description' => $description,
-            'features' => $description,
+            'features' => $features,
             'brand_id' => $brand_id,
-            'cover'=> new CURLFILE($file)),
+            'cover' => new CURLFILE($_FILES['cover']['tmp_name'])
+        ),
         CURLOPT_HTTPHEADER => array(
             'Authorization: Bearer '.$_SESSION['token']
         ),
@@ -111,12 +113,10 @@ Class ProductsController
         $response = json_decode($response);
         
 
-        if(isset($response->code) && $response->code > 0){
-            header("Location:../products/index.php?".$response->message);
-            //return $response->data;
+        if (isset($response->code) && $response->code > 0) { 
+            header("Location:../products?success");
         }else{
-            header("Location:../products/index.php?Error");
-            //return array();
+            header("Location:../products?error");
         }
 
 
@@ -154,6 +154,37 @@ Class ProductsController
             return array();
         }
 
+    }
+
+    public function updateProduct($name,$slug,$description,$features,$brand_id,$id)
+    {
+        $curl = curl_init(); 
+
+        curl_setopt_array($curl, array(
+            CURLOPT_URL => 'https://crud.jonathansoto.mx/api/products',
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => '',
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 0,
+            CURLOPT_FOLLOWLOCATION => true,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => 'PUT',
+            CURLOPT_POSTFIELDS => 'name='.$name.'&slug='.$slug.'&description='.$description.'&features='.$features.'&brand_id='.$brand_id.'&id='.$id,
+            CURLOPT_HTTPHEADER => array(
+            'Authorization: Bearer '.$_SESSION['token'],
+            'Content-Type: application/x-www-form-urlencoded'
+            ),
+        ));
+
+        $response = curl_exec($curl); 
+        curl_close($curl);
+        $response = json_decode($response); 
+
+        if (isset($response->code) && $response->code > 0) { 
+            header("Location:../products?success");
+        }else{
+            header("Location:../products?error");
+        }
     }
 
     public function deleteProduct($id) {
