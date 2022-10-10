@@ -17,15 +17,19 @@ include "app/config.php";
       integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx"
       crossorigin="anonymous"
     />
-
+    <style type="text/css">
+        .registro{  
+            min-height: 600px;
+        }
+    </style>
 </head>
 <body>
 
-<div class="container">
+<div class="container recolor">
 
     <section>
-        <div class="row registro justify-content-md-center">
-            <div class="col-md-6 col-sm-12">
+        <div class="row registro justify-content-md-center align-items-center">
+            <div class="col-md-6 col-sm-12 p-3 border">
 
                 <form method="post" action="<?= BASE_PATH ?>auth">
 

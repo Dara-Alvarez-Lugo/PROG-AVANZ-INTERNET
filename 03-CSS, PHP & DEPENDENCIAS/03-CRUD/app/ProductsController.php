@@ -4,40 +4,44 @@ include_once "config.php";
 
 
 if(isset($_POST["action"])){
-    switch($_POST["action"]){
-        case 'create':
-            $name = strip_tags($_POST['name']);
-            $slug = strip_tags($_POST['slug']);
-            $description = strip_tags($_POST['description']);
-            $features = strip_tags($_POST['features']);
-            $brand_id = strip_tags($_POST['brand_id']);
-
-            $productsController = new ProductsController();
-            $productsController->postProducts($name, $slug ,$description, $features, $brand_id);
-            
-        break;
-
-        case 'update':
-
-            $name = strip_tags($_POST['name']);
-            $slug = strip_tags($_POST['slug']);
-            $description = strip_tags($_POST['description']);
-            $features = strip_tags($_POST['features']);
-            $brand_id = strip_tags($_POST['brand_id']); 
-
-            $id = strip_tags($_POST['id']); 
-
-            $productsController = new ProductsController();
-            $productsController->updateProduct($name, $slug, $description, $features, $brand_id, $id);
-        break;
-
-        case 'delete':
-            $id = strip_tags($_POST['id']);
+    if(isset($_POST['super_token']) && $_POST['super_token'] == $_SESSION['super_token'])
+    {
+        switch($_POST["action"])
+        {
+            case 'create':
+                $name = strip_tags($_POST['name']);
+                $slug = strip_tags($_POST['slug']);
+                $description = strip_tags($_POST['description']);
+                $features = strip_tags($_POST['features']);
+                $brand_id = strip_tags($_POST['brand_id']);
     
-            $productController = new ProductsController();
-            $productController -> deleteProduct($id);
-        break;
+                $productsController = new ProductsController();
+                $productsController->createProducts($name, $slug ,$description, $features, $brand_id);
+                
+            break;
+    
+            case 'update':
+                $name = strip_tags($_POST['name']);
+                $slug = strip_tags($_POST['slug']);
+                $description = strip_tags($_POST['description']);
+                $features = strip_tags($_POST['features']);
+                $brand_id = strip_tags($_POST['brand_id']); 
+    
+                $id = strip_tags($_POST['id']); 
+    
+                $productsController = new ProductsController();
+                $productsController->updateProduct($name, $slug, $description, $features, $brand_id, $id);
+            break;
+    
+            case 'delete':
+                $id = strip_tags($_POST['id']);
+                $productController = new ProductsController();
+                $productController -> deleteProduct($id);
+            break;
+        }
+
     }
+    
 }
 
 
@@ -78,7 +82,7 @@ Class ProductsController
     }
 
 
-    public function postProducts($name, $slug, $description, $features, $brand_id)
+    public function createProducts($name, $slug, $description, $features, $brand_id)
     {
 
         $curl = curl_init();
@@ -114,9 +118,9 @@ Class ProductsController
         
 
         if (isset($response->code) && $response->code > 0) { 
-            header("Location:../products?success");
+            header("Location:".BASE_PATH."products?success");
         }else{
-            header("Location:../products?error");
+            header("Location:".BASE_PATH."products?error");
         }
 
 
@@ -181,9 +185,9 @@ Class ProductsController
         $response = json_decode($response); 
 
         if (isset($response->code) && $response->code > 0) { 
-            header("Location:../products?success");
+            header("Location:".BASE_PATH."products?success");
         }else{
-            header("Location:../products?error");
+            header("Location:".BASE_PATH."products?error");
         }
     }
 

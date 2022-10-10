@@ -1,9 +1,10 @@
 <?php
+	include "../app/config.php";
 	include '../app/ProductsController.php';
 	include '../app/BrandsController.php';
 
-	$brandsController = new BrandsController();
-	$brands = $brandsController->getBrands();
+	$brandController = new BrandsController();
+	$brands = $brandController->getBrands();
 
 	$productController = new ProductsController();
 	$products = $productController->getProducts();
@@ -75,6 +76,7 @@
 												<a a onclick="eliminar(<?= $product->id ?>)" href="#" class="btn btn-danger mb-1 col-6">
 													Eliminar
 												</a>
+												<input type="hidden" id="basepath" value="<?= BASE_PATH ?>">
 												<a href="details.php?slug=<?= $product->slug ?>" class="btn btn-info col-12">
 													Detalles
 												</a>
@@ -114,7 +116,7 @@
 		        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 		      </div>
 
-		      <form enctype="multipart/form-data" method="post" action="../app/ProductsController.php">
+		      <form enctype="multipart/form-data" method="post" action="<?= BASE_PATH ?>produc">
 
 			    <div class="modal-body">
 			        
@@ -168,8 +170,8 @@
 			    </div>
 
 			      <input type="hidden" id="action" name="action" value="create">
-
 			      <input type="hidden" id="id_product" name="id">
+				  <input type="hidden" name="super_token" value="<?= $_SESSION['super_token'] ?>">
 
 		      </form>
 
@@ -188,10 +190,12 @@
 
 
 
+
 		<script type="text/javascript">
 
 			function eliminar(id)
 			{
+
 				swal({
 				  title: "Are you sure?",
 				  text: "Once deleted, you will not be able to recover this imaginary file!",
@@ -202,14 +206,19 @@
 				.then((willDelete) => {
 					if (willDelete) 
 					{
-
 						swal("Poof! Your imaginary file has been deleted!", {
 							icon: "success",
 						});
+
+						let basepth = document.getElementById("basepath").value;
+						//nconsole.log(basepth)
+
 						var bodyFormData = new FormData();
 						bodyFormData.append('id', id);
 						bodyFormData.append('action', 'delete');
-						axios.post('../app/ProductsController.php', bodyFormData)
+						bodyFormData.append('super_token', "<?= $_SESSION['super_token'] ?>");
+						
+						axios.post(basepth+'produc', bodyFormData)
 							.then(function(response) {
 								console.log(response);
 								location.reload();
@@ -223,12 +232,12 @@
 						swal("Your imaginary file is safe!");
 				 	}
 				});
+
 			}
 
 
 			function editProduct(target)
 			{
-			
 				let product = JSON.parse( target.dataset.product )
 
 				document.getElementById('name').value = product.name
@@ -241,7 +250,6 @@
 
 
 				document.getElementById('action').value = 'update'
-
 			}
 
 		</script>
